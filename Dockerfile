@@ -14,7 +14,8 @@ RUN apk add --update --no-cache \
     sdl2-dev \
     sdl2_image-dev \
     boost-dev \
-    glm-dev
+    glm-dev \
+    xorg-server-dev
 
 RUN git clone --branch gource-0.48 https://github.com/acaudwell/Gource.git
 
