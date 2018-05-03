@@ -1,22 +1,23 @@
-FROM alpine:3.7
+FROM debian:9-slim
 
-MAINTAINER villeger.c@gmail.com
+LABEL maintainer="villeger.c@gmail.com"
 
-RUN apk add --update --no-cache \
-    ffmpeg \
-    git \
-    autoconf \
-    automake \
-    build-base \
-    freetype-dev \
-    pcre-dev \
-    glew-dev \
-    sdl2-dev \
-    sdl2_image-dev \
-    boost-dev \
-    glm-dev \
-    xorg-server-dev
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
+    apt-get install -y xvfb \
+                       xfonts-base \
+                       xfonts-75dpi \
+                       xfonts-100dpi \
+                       xfonts-cyrillic \
+                       gource \
+                       screen \
+                       ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --branch gource-0.48 https://github.com/acaudwell/Gource.git
+# Mount volumes
+#VOLUME ["/repoRoot", "/avatars", "/results"]
 
-RUN cd ./Gource && ./autogen.sh && ./configure && make && make install
+# Set the working directory to where the git repository is stored
+WORKDIR /app
+
+CMD ["supervisord"]
